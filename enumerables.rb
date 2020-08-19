@@ -52,9 +52,25 @@ module Enumerable
     false
   end
 
-  def my_none?(arg = true)
+  def my_none?(arg = nil)
     if block_given?
-      my_each { |i| return }
+      my_each { |i| return false if yield(i) == true}
+    elsif arg.nil?
+      my_each { |i| return true if i.nil? || i == false}
+    elsif arg.is_a?(Regexp)
+      my_each { |i| return false if i.match(arg) }
+    elsif arg.is_a?(Class)
+      my_each { |i| return false if i.is_a?(arg) }
+    else
+      my_each do |i|
+        if i != arg
+          return true
+        elsif i == arg
+          return false
+        else
+          return false
+        end
+      end
     end
     true
   end
