@@ -22,4 +22,15 @@ module Enumerable
     end
     self
   end
+
+  def my_select
+    return to_enum(:my_select) unless block_given? 
+    result = []
+    self.my_each do |i|
+      next unless yield(i)
+      result.push(i)
+    end
+    result
+  end
+
 end
