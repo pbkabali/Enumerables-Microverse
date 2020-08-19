@@ -33,4 +33,30 @@ module Enumerable
     result
   end
 
+  def my_all?
+    #something
+  end
+
+  def my_any?(arg = true)
+    if block_given?
+      my_each { |i| return true if yield(i) == true }
+    elsif arg.is_a?(Class)
+      my_each { |i| return true if i.is_a?(arg) }
+    elsif arg.nil?
+      my_each { |i| return true if i.nil? || i == false }
+    elsif arg.is_a?(Regexp)
+      my_each { |i| return true if i.match(arg) }
+    else
+      my_each { |i| return true if i == arg }
+    end
+    false
+  end
+
+  def my_none?(arg = true)
+    if block_given?
+      my_each { |i| return }
+    end
+    true
+  end
+
 end
