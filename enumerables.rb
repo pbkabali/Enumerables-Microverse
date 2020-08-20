@@ -1,4 +1,7 @@
 module Enumerable
+
+  # ---------- my_each method ---------------------------
+
   def my_each
     return to_enum(:my_each) unless block_given?
     n = Array(self).length
@@ -10,6 +13,9 @@ module Enumerable
     end
     self
   end
+
+  # ---------- my_each_with_index method ----------------
+
 
   def my_each_with_index
     return to_enum(:my_each_with_index) unless block_given?
@@ -23,19 +29,69 @@ module Enumerable
     self
   end
 
+   # ---------- my_select method --------------------------
+
   def my_select
     return to_enum(:my_select) unless block_given? 
     result = []
-    self.my_each do |i|
+    Array(self).my_each do |i|
       next unless yield(i)
       result.push(i)
     end
     result
   end
 
-  def my_all?
-    #something
+  # ---------- my_all method ------------------------------
+
+  def my_all? (*args)
+    result = true
+    unless args.empty?
+      if args.length > 1
+        raise ArgumentError.new "Too many arguments, Expected 1!"
+      elsif block_given?
+        puts "warning: given block not used"
+      end
+      case
+      when args[0].class == Class
+        self.my_each do |i|
+          next if i.is_a? args[0] 
+          result = !result
+          break unless result
+        end
+      when args[0].class == Regexp
+        self.my_each do |i|
+          next if i.match(args[0])
+          result = !result
+          break unless result
+        end
+      else
+        self.my_each do |i|
+          next if i == args[0]
+          result = !result
+          break unless result
+        end
+      end
+      
+    else
+      case
+      when block_given?
+        self.my_each do |i|
+          next if yield(i)
+          result = !result
+          break unless result
+        end
+      else
+        self.my_each do |i|
+          next if i
+          result = !result
+          break unless result
+        end
+      end
+    end   
+    result
   end
+
+ # ---------- my_any method ------------------------------
 
   def my_any?(arg = true)
     if block_given?
