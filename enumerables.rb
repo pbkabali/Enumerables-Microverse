@@ -118,5 +118,25 @@ module Enumerable
     end
     true
   end
+
+   #---------- my_count method ------------------------------
+
+   def my_count(*args)
+    count = 0
+    if args.empty?
+      if block_given?
+        my_each { |i| count += 1 if yield(i) }
+      else
+        my_each { |i| count += 1 }
+      end
+    else
+      raise ArgumentError, 'Too many arguments, Expected 1!' if args.length > 1
+        
+      puts 'warning: given block not used' if block_given?
+
+      my_each { |i| count += 1 if i == args[0] }
+    end
+    count
+  end
 end
 # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Metrics/MethodLength
