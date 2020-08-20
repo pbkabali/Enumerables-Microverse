@@ -47,52 +47,26 @@ module Enumerable
   #---------- my_all method ------------------------------
 
   def my_all?(*args)
-    result = true
     if args.empty?
       if block_given?
-        my_each do |i|
-          next if yield(i)
-
-          result = !result
-          break unless result
-        end
+        my_each { |i| return false unless yield(i) }
       else
-        my_each do |i|
-          next if i
-
-          result = !result
-          break unless result
-        end
+        my_each { |i| return false unless i }
       end
     else
       raise ArgumentError, 'Too many arguments, Expected 1!' if args.length > 1
         
       puts 'warning: given block not used' if block_given?
 
-      if args[0].class == Class
-        my_each do |i|
-          next if i.is_a? args[0]
-
-          result = !result
-          break unless result
-        end
+      if args[0].is_a?(Class)
+        my_each { |i| return false unless i.is_a?(args[0]) }
       elsif args[0].class == Regexp
-        my_each do |i|
-          next if i.match(args[0])
-
-          result = !result
-          break unless result
-        end
+        my_each { |i| return false unless i.match(args[0]) }
       else
-        my_each do |i|
-          next if i == args[0]
-
-          result = !result
-          break unless result
-        end
+        my_each { |i| return false unless i == args[0] }
       end
     end
-    result
+    true
   end
 
   #---------- my_any method ------------------------------
