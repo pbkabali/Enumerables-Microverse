@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Metrics/MethodLength
+# rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Metrics/ModuleLength
 module Enumerable
   #---------- my_each method ---------------------------
 
@@ -55,7 +55,7 @@ module Enumerable
       end
     else
       raise ArgumentError, 'Too many arguments, Expected 1!' if args.length > 1
-        
+
       puts 'Warning: given block not used' if block_given?
 
       if args[0].is_a?(Class)
@@ -80,7 +80,7 @@ module Enumerable
       end
     else
       raise ArgumentError, 'Too many arguments, Expected 1!' if arg.length > 1
-        
+
       puts 'Warning: given block not used' if block_given?
 
       if arg[0].is_a?(Class)
@@ -95,7 +95,7 @@ module Enumerable
   end
 
   #----------- my_none method --------------------------------
-  
+
   def my_none?(*arg)
     if arg.empty?
       if block_given?
@@ -105,7 +105,7 @@ module Enumerable
       end
     else
       raise ArgumentError, 'Too many arguments, Expected 1!' if arg.length > 1
-        
+
       puts 'Warning: given block not used' if block_given?
 
       if arg[0].is_a?(Class)
@@ -127,11 +127,11 @@ module Enumerable
       if block_given?
         my_each { |i| count += 1 if yield(i) }
       else
-        my_each { |i| count += 1 }
+        my_each { |_i| count += 1 }
       end
     else
       raise ArgumentError, 'Too many arguments, Expected 1!' if args.length > 1
-        
+
       puts 'Warning: given block not used' if block_given?
 
       my_each { |i| count += 1 if i == args[0] }
@@ -159,8 +159,9 @@ module Enumerable
     elsif arg[0].is_a?(Numeric)
       counter = arg[0]
     end
-    Array(self).my_each_with_index do |i , idx|
+    Array(self).my_each_with_index do |i, idx|
       next if validator && idx.zero?
+
       if block_given?
         counter = yield(counter, i)
       elsif arg[0].class == Symbol
@@ -171,9 +172,8 @@ module Enumerable
     end
     counter
   end
-
 end
-# rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Metrics/MethodLength
+# rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Metrics/ModuleLength
 
 def my_multiply_els(arr)
   arr.my_inject(:*)
