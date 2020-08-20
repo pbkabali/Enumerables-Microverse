@@ -52,27 +52,62 @@ module Enumerable
     false
   end
 
-  def my_none?(arg = nil)
-    if block_given?
-      my_each { |i| return false if yield(i) == true}
-    elsif arg.nil?
-      my_each { |i| return true if i.nil? || i == false}
-    elsif arg.is_a?(Regexp)
-      my_each { |i| return false if i.match(arg) }
-    elsif arg.is_a?(Class)
-      my_each { |i| return false if i.is_a?(arg) }
-    else
-      my_each do |i|
-        if i != arg
-          return true
-        elsif i == arg
-          return false
-        else
-          return false
-        end
-      end
-    end
-    true
-  end
+  # def my_none?(arg = nil)
+  #   if block_given?
+  #     my_each { |i| return false if yield(i) == true}
+  #   elsif arg.nil?
+  #     my_each { |i| return true if i.nil? || i == false}
+  #   elsif arg.is_a?(Regexp)
+  #     my_each { |i| return false if i.match(arg) }
+  #   elsif arg.is_a?(Class)
+  #     my_each { |i| return false if i.is_a?(arg) }
+  #   else
+  #     my_each do |i|
+  #       if i != arg
+  #         return true
+  #       elsif i == arg
+  #         return false
+  #       end
+  #     end
+  #   end
+  #   true
+  # end
+
+  # def my_none?(arr = nil)
+  #   Array(self).my_each do |arg|
+  #     if !block_given?
+  #       if arr.nil?
+  #         next unless arg
+  #       elsif arr.class == Class
+  #         next unless arg.is_a? arr
+  #       elsif arr.class == Regexp
+  #         next unless arg =~ arr
+  #       elsif (arg.is_a? Numeric) || (arg.is_a? String)
+  #         next unless arg == arr
+  #       end
+  #     else
+  #       next unless yield(arg)
+  #     end
+  #     return false
+  #   end
+  #   true
+  # end
+
+
+  # def my_none?(arg = false)
+  #   if block_given?
+  #     my_each { |x| return false if yield(x) == true }
+  #     return true
+  #   elsif arg.nil?
+  #     my_each { |i| return true if i.nil? || i == false }
+  #   elsif arg.is_a?(Regexp)
+  #     my_each { |x| return false if x.match(arg) }
+  #     return true
+  #   else
+  #     my_each { |i| return false if i == true }
+  #   end
+  #   true
+  # end
+  
 
 end
