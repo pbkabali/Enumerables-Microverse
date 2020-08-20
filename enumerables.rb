@@ -148,5 +148,33 @@ module Enumerable
     my_each { |i| result.push(yield(i)) }
     result
   end
+
+  #------------ my_inject -----------------------------
+
+  def my_inject(*arg)
+    validator = false
+    counter = Array(self)[0]
+    if (arg[0].class == Symbol) || arg[0].nil?
+      validator = true
+    elsif arg[0].is_a?(Numeric)
+      counter = arg[0]
+    end
+    Array(self).my_each_with_index do |i , idx|
+      next if validator && idx.zero?
+      if block_given?
+        counter = yield(counter, i)
+      elsif arg[0].class == Symbol
+        counter = counter.send(arg[0], i)
+      elsif arg[0].is_a?(Numeric)
+        counter = counter.send(arg[1], i)
+      end
+    end
+    counter
+  end
+
 end
 # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Metrics/MethodLength
+
+def my_multiply_els(arr)
+  arr.my_inject(:*)
+end
