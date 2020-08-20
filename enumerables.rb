@@ -65,11 +65,9 @@ module Enumerable
         end
       end
     else
-      if args.length > 1
-        raise ArgumentError, 'Too many arguments, Expected 1!'
-      elsif block_given?
-        puts 'warning: given block not used'
-      end
+      raise ArgumentError, 'Too many arguments, Expected 1!' if args.length > 1
+        
+      puts 'warning: given block not used' if block_given?
 
       if args[0].class == Class
         my_each do |i|
