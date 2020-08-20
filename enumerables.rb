@@ -56,7 +56,7 @@ module Enumerable
     else
       raise ArgumentError, 'Too many arguments, Expected 1!' if args.length > 1
         
-      puts 'warning: given block not used' if block_given?
+      puts 'Warning: given block not used' if block_given?
 
       if args[0].is_a?(Class)
         my_each { |i| return false unless i.is_a?(args[0]) }
@@ -81,7 +81,7 @@ module Enumerable
     else
       raise ArgumentError, 'Too many arguments, Expected 1!' if arg.length > 1
         
-      puts 'warning: given block not used' if block_given?
+      puts 'Warning: given block not used' if block_given?
 
       if arg[0].is_a?(Class)
         my_each { |i| return true if i.is_a?(arg[0]) }
@@ -106,7 +106,7 @@ module Enumerable
     else
       raise ArgumentError, 'Too many arguments, Expected 1!' if arg.length > 1
         
-      puts 'warning: given block not used' if block_given?
+      puts 'Warning: given block not used' if block_given?
 
       if arg[0].is_a?(Class)
         my_each { |i| return false if i.is_a?(arg[0]) }
@@ -119,9 +119,9 @@ module Enumerable
     true
   end
 
-   #---------- my_count method ------------------------------
+  #---------- my_count method ------------------------------
 
-   def my_count(*args)
+  def my_count(*args)
     count = 0
     if args.empty?
       if block_given?
@@ -132,11 +132,21 @@ module Enumerable
     else
       raise ArgumentError, 'Too many arguments, Expected 1!' if args.length > 1
         
-      puts 'warning: given block not used' if block_given?
+      puts 'Warning: given block not used' if block_given?
 
       my_each { |i| count += 1 if i == args[0] }
     end
     count
+  end
+
+  #---------- my_map method ------------------------------
+
+  def my_map
+    return to_enum(:my_map) unless block_given?
+
+    result = []
+    my_each { |i| result.push(yield(i)) }
+    result
   end
 end
 # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Metrics/MethodLength
