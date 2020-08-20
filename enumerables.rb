@@ -60,7 +60,7 @@ module Enumerable
 
       if args[0].is_a?(Class)
         my_each { |i| return false unless i.is_a?(args[0]) }
-      elsif args[0].class == Regexp
+      elsif args[0].is_a?(Regexp)
         my_each { |i| return false unless i.match(args[0]) }
       else
         my_each { |i| return false unless i == args[0] }
@@ -71,32 +71,50 @@ module Enumerable
 
   #---------- my_any method ------------------------------
 
-  def my_any?(arg = true)
-    if block_given?
-      my_each { |i| return true if yield(i) == true }
-    elsif arg.is_a?(Class)
-      my_each { |i| return true if i.is_a?(arg) }
-    elsif arg.nil?
-      my_each { |i| return true if i.nil? || i == false }
-    elsif arg.is_a?(Regexp)
-      my_each { |i| return true if i.match(arg) }
+  def my_any?(*arg)
+    if arg.empty?
+      if block_given?
+        my_each { |i| return true if yield(i) == true }
+      else
+        my_each { |i| return true if i == true }
+      end
     else
-      my_each { |i| return true if i == arg }
+      raise ArgumentError, 'Too many arguments, Expected 1!' if arg.length > 1
+        
+      puts 'warning: given block not used' if block_given?
+
+      if arg[0].is_a?(Class)
+        my_each { |i| return true if i.is_a?(arg[0]) }
+      elsif arg[0].is_a?(Regexp)
+        my_each { |i| return true if i.match(arg[0]) }
+      else
+        my_each { |i| return true if i == arg[0] }
+      end
     end
     false
   end
 
-  def my_none?(arg = nil)
-    if block_given?
-      my_each { |i| return false if yield(i) == true }
-    elsif arg.nil?
-      my_each { |i| return true if i.nil? || i == false }
-    elsif arg.is_a?(Regexp)
-      my_each { |i| return false if i.match(arg) }
-    elsif arg.is_a?(Class)
-      my_each { |i| return false if i.is_a?(arg) }
+  #----------- my_none method --------------------------------
+  
+  def my_none?(*arg)
+    if arg.empty?
+      if block_given?
+        my_each { |i| return false if yield(i) == true }
+      else
+        my_each { |i| return false if i == true }
+      end
     else
-      my_each { |i| return true if i != arg }
+      raise ArgumentError, 'Too many arguments, Expected 1!' if arg.length > 1
+        
+      puts 'warning: given block not used' if block_given?
+
+      if arg[0].is_a?(Class)
+        my_each { |i| return false if i.is_a?(arg[0]) }
+      elsif arg[0].is_a?(Regexp)
+        my_each { |i| return false if i.match(arg[0]) }
+      else
+        my_each { |i| return false if i == arg[0] }
+      end
     end
     true
   end
