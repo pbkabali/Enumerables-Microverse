@@ -1,6 +1,6 @@
 # 🧐 Advanced Building Blocks - Enumerables
 
-> This is the second Ruby project from the Microverse program. It's a program built to understand how works methods and how are builted.
+> This is the second Ruby project from the Microverse program. It's a program built to understand how inbuilt methods work and how they are built.
 
 ![screenshot](./app_screenshot.png)
 
@@ -18,8 +18,8 @@ To get a local copy up and running follow these simple example steps.
 - Press the "Code" button and get the repo link.
 - Clone it using git.
 - Open terminal on that folder.
-- Run the next command: 
-  ´$ruby enumerables.rb´
+- Run the next command:
+  ´\$ruby enumerables.rb´
 
 ## 👤 Authors
 

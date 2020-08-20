@@ -141,10 +141,16 @@ module Enumerable
 
   #---------- my_map method ------------------------------
 
-  def my_map
+  def my_map(arg=nil)
+    result = []
+    if arg.is_a?(Proc)
+      my_each do |i|
+        result.push(arg.call(i))
+      end
+      return result
+    end
     return to_enum(:my_map) unless block_given?
 
-    result = []
     my_each { |i| result.push(yield(i)) }
     result
   end
