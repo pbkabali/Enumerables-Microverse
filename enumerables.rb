@@ -141,7 +141,7 @@ module Enumerable
 
   #---------- my_map method ------------------------------
 
-  def my_map(arg=nil)
+  def my_map(arg = nil)
     result = []
     if arg.is_a?(Proc)
       my_each do |i|
