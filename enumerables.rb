@@ -158,7 +158,7 @@ module Enumerable
   #------------ my_inject -----------------------------
 
   def my_inject(*arg)
-    raise('LocalJumpError.new NO BLOCK OR ARGUMENT GIVEN!') if !block_given? && arg.empty?
+    raise LocalJumpError, 'NO BLOCK OR ARGUMENT GIVEN!' if !block_given? && arg.empty?
 
     validator = false
     counter = Array(self)[0]
