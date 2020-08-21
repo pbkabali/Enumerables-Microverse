@@ -158,6 +158,8 @@ module Enumerable
   #------------ my_inject -----------------------------
 
   def my_inject(*arg)
+    raise('LocalJumpError.new NO BLOCK OR ARGUMENT GIVEN!') if !block_given? && arg.empty?
+
     validator = false
     counter = Array(self)[0]
     if (arg[0].class == Symbol) || arg[0].nil?
@@ -181,6 +183,6 @@ module Enumerable
 end
 # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Metrics/ModuleLength
 
-def my_multiply_els(arr)
+def multiply_els(arr)
   arr.my_inject(:*)
 end
